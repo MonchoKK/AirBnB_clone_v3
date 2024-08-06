@@ -2,7 +2,7 @@
 """ Defines a view for State objects: handles all default RESTful API
     actions (i.e. GET, PUT, POST & DELETE) """
 from api.v1.views import app_views
-from flask import jsonify, abort, request, make_response
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
@@ -40,7 +40,7 @@ def delete_state(state_id):
         abort(404)
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """ creates a new State object
     Returns the new state and status code 201 """
@@ -59,7 +59,8 @@ def create_state():
     return jsonify(state.to_dict()), 200
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_state(state_id):
     """ updates a State object
     Returns the updated state + status code 200 if successful,
