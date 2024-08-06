@@ -6,6 +6,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
+
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
 def get_all_states():
     """ retrieves all State objects """
@@ -13,7 +14,8 @@ def get_all_states():
     state_list = [state.to_dict() for state in states]
     return jsonify(state_list)
 
-@app_views.route('/states/<state_id>', strict_slashes=False, 
+
+@app_views.route('/states/<state_id>', strict_slashes=False,
                  methods=['GET'])
 def get_state(state_id):
     """ retrieves State object (of ID), raising a 404 error if not found """
@@ -23,7 +25,8 @@ def get_state(state_id):
     else:
         abort(404)
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], 
+
+@app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
     """ deletes a State object, returning an empty dict with status 200
@@ -35,6 +38,7 @@ def delete_state(state_id):
         return jsonify({}), 200
     else:
         abort(404)
+
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
@@ -51,11 +55,12 @@ def create_state():
     state.save()
     return jsonify(state.to_dict()), 201
 
-@app_views.route('/states/<state_id>', methods=['PUT'], 
+
+@app_views.route('/states/<state_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_state(state_id):
     """ updates a State object
-    Returns the updated state + status code 200 if successful, 
+    Returns the updated state + status code 200 if successful,
     raising 4XX errors otherwise """
     if not request.json:
         abort(400, description='Not a JSON')
